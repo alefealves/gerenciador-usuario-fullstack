@@ -1,3 +1,5 @@
+using UsersAPI.Services.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

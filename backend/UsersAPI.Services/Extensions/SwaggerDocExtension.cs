@@ -1,3 +1,6 @@
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+
 namespace UsersAPI.Services.Extensions
 {
     public static class SwaggerDocExtension
