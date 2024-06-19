@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UsersAPI.Infra.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace UsersAPI.Infra.IoC.Extensions
 {
@@ -18,14 +19,14 @@ namespace UsersAPI.Infra.IoC.Extensions
         case "SqlServer":
           services.AddDbContext<DataContext>(options =>
           {
-            options.UseSqlServer(configuration.GetConnectionString("DB_UsersAPI"));
+            options.UseSqlServer(configuration.GetConnectionString("DBUsers"));
           });
           break;
 
         case "InMemory":
           services.AddDbContext<DataContext>(options =>
           {
-            options.UseInMemoryDatabase(databaseName: "DB_UsersAPI");
+            options.UseInMemoryDatabase(databaseName: "DBUsers");
           });
           break;
       }
