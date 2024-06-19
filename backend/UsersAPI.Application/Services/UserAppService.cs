@@ -1,5 +1,4 @@
 using AutoMapper;
-using System.ComponentModel.Design;
 using UsersAPI.Application.Dtos.Requests;
 using UsersAPI.Application.Dtos.Responses;
 using UsersAPI.Application.Interfaces.Application;

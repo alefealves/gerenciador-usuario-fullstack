@@ -10,12 +10,17 @@ namespace UsersAPI.Domain.Services
   public class UserDomainService : IUserDomainService
   {
     private readonly IUnitOfWork? _unitOfWork;
-    private readonly IUserMessageProducer? userMessageProducer;
+    //private readonly IUserMessageProducer? userMessageProducer;
 
-    public UserDomainService(IUnitOfWork? unitOfWork, IUserMessageProducer? userMessageProducer)
+    // public UserDomainService(IUnitOfWork? unitOfWork, IUserMessageProducer? userMessageProducer)
+    // {
+    //   _unitOfWork = unitOfWork;
+    //   this.userMessageProducer = userMessageProducer;
+    // }
+
+    public UserDomainService(IUnitOfWork? unitOfWork)
     {
       _unitOfWork = unitOfWork;
-      this.userMessageProducer = userMessageProducer;
     }
 
     public void Add(User user)
@@ -29,12 +34,12 @@ namespace UsersAPI.Domain.Services
       _unitOfWork?.UserRepository.Add(user);
       _unitOfWork?.SaveChanges();
 
-      userMessageProducer?.Send(new UserMessageVO
-      {
-        Email = user.Email,
-        Subject = "Parabéns, sua conta de usuário foi criada com sucesso",
-        Body = @$"Olá {user.FirstName}, clique no link para ativar seu Usuário em nosso sistema."
-      });
+      // userMessageProducer?.Send(new UserMessageVO
+      // {
+      //   Email = user.Email,
+      //   Subject = "Parabéns, sua conta de usuário foi criada com sucesso",
+      //   Body = @$"Olá {user.FirstName}, clique no link para ativar seu Usuário em nosso sistema."
+      // });
     }
 
     public void Update(User user)

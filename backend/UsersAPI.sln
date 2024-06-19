@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersAPI.Services", "UsersAPI.Services\UsersAPI.Services.csproj", "{EADD7AE9-71A2-412F-87FD-B5B3748BADA3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{E0692592-C471-4208-84AC-B05FF56DDC60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDD", "DDD", "{B7FA4536-91CA-4489-997E-21228FD0505B}"
@@ -14,6 +12,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{1D6160F4-89C0-4B71-9A18-B6C75C60225C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InfraStructure", "InfraStructure", "{5FACF30C-8F59-4917-8049-B390DAF61968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersAPI.Services", "UsersAPI.Services\UsersAPI.Services.csproj", "{EADD7AE9-71A2-412F-87FD-B5B3748BADA3}"
+EndProject
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersAPI.Application", "UsersAPI.Application\UsersAPI.Application.csproj", "{02A2B9CF-E908-4F53-8B1F-81E07DBBFECA}"
 EndProject
