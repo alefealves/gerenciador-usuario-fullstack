@@ -88,8 +88,11 @@ namespace UsersAPI.Domain.Services
     public string Authenticate(string email, string password)
     {
       var user = Get(email, password);
-
       if (user == null)
+        throw new AccessDeniedException();
+
+      var userRole = _unitOfWork?.RoleRepository.GetById(user.RoleId);
+      if (userRole == null)
         throw new AccessDeniedException();
 
       var userAuth = new UserAuthVO
@@ -98,7 +101,7 @@ namespace UsersAPI.Domain.Services
         FirstName = user.FirstName,
         LastName = user.LastName,
         Email = user.Email,
-        Role = "User",
+        Role = userRole.RoleName,
         SignedAt = DateTime.Now
       };
 
