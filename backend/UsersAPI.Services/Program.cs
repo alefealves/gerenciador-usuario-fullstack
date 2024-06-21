@@ -18,7 +18,7 @@ builder.Services.AddDbContextConfig(builder.Configuration);
 
 var app = builder.Build();
 
-//app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseSwaggerDoc();
 app.UseAuthentication();
 app.UseAuthorization();

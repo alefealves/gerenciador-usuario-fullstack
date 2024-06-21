@@ -26,7 +26,7 @@ namespace UsersAPI.Application.Services
 
         return new LoginResponseDto
         {
-          AccessToken = token,
+          AccessToken = token
         };
       }
       catch (AccessDeniedException aex)

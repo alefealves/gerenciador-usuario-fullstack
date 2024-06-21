@@ -98,7 +98,7 @@ namespace UsersAPI.Domain.Services
         FirstName = user.FirstName,
         LastName = user.LastName,
         Email = user.Email,
-        Role = user.Role.RoleName,
+        Role = "User",
         SignedAt = DateTime.Now
       };
 

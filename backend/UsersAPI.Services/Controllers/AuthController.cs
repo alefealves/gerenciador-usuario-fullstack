@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using UsersAPI.Application.Dtos.Requests;
+using UsersAPI.Application.Dtos.Responses;
 using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Services.Controllers
@@ -20,9 +21,10 @@ namespace UsersAPI.Services.Controllers
     /// </summary>
     [Route("login")]
     [HttpPost]
-    public IActionResult Login()
+    [ProducesResponseType(typeof(LoginResponseDto), 200)]
+    public IActionResult Login(LoginRequestDto login)
     {
-      return Ok();
+      return StatusCode(200, _authAppService.Login(login));
     }
 
     /// <summary>
