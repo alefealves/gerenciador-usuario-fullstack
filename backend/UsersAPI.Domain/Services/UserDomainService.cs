@@ -1,8 +1,8 @@
 using UsersAPI.Domain.Entities;
 using UsersAPI.Domain.Exceptions;
-using UsersAPI.Domain.Interfaces.Messages;
 using UsersAPI.Domain.Interfaces.Repositories;
 using UsersAPI.Domain.Interfaces.Services;
+using UsersAPI.Domain.Interfaces.Security;
 using UsersAPI.Domain.ValueObjects;
 
 namespace UsersAPI.Domain.Services
@@ -10,6 +10,8 @@ namespace UsersAPI.Domain.Services
   public class UserDomainService : IUserDomainService
   {
     private readonly IUnitOfWork? _unitOfWork;
+    private readonly ITokenService? _tokenService;
+
     //private readonly IUserMessageProducer? userMessageProducer;
 
     // public UserDomainService(IUnitOfWork? unitOfWork, IUserMessageProducer? userMessageProducer)
@@ -18,9 +20,10 @@ namespace UsersAPI.Domain.Services
     //   this.userMessageProducer = userMessageProducer;
     // }
 
-    public UserDomainService(IUnitOfWork? unitOfWork)
+    public UserDomainService(IUnitOfWork? unitOfWork, ITokenService? tokenService)
     {
       _unitOfWork = unitOfWork;
+      _tokenService = tokenService;
     }
 
     public void Add(User user)
@@ -44,7 +47,7 @@ namespace UsersAPI.Domain.Services
 
     public void Update(User user)
     {
-      if (GetByRoleId(user.RoleId) != null)
+      if (GetByRoleId(user.RoleId) == null)
         throw new RoleIsNotExistsException(user.RoleId);
 
       _unitOfWork?.UserRepository.Update(user);
@@ -80,6 +83,26 @@ namespace UsersAPI.Domain.Services
     public User? GetByRoleId(Guid roleId)
     {
       return _unitOfWork?.UserRepository.Get(u => u.RoleId.Equals(roleId));
+    }
+
+    public string Authenticate(string email, string password)
+    {
+      var user = Get(email, password);
+
+      if (user == null)
+        throw new AccessDeniedException();
+
+      var userAuth = new UserAuthVO
+      {
+        Id = user.Id,
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        Email = user.Email,
+        Role = user.Role.RoleName,
+        SignedAt = DateTime.Now
+      };
+
+      return _tokenService?.CreateToken(userAuth);
     }
 
     public void Dispose()

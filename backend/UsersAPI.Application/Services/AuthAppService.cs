@@ -3,6 +3,7 @@ using UsersAPI.Application.Dtos.Requests;
 using UsersAPI.Application.Dtos.Responses;
 using UsersAPI.Application.Interfaces.Application;
 using UsersAPI.Domain.Interfaces.Services;
+using UsersAPI.Domain.Exceptions;
 
 namespace UsersAPI.Application.Services
 {
@@ -19,14 +20,19 @@ namespace UsersAPI.Application.Services
 
     public LoginResponseDto Login(LoginRequestDto dto)
     {
-      var user = _userDomainService?.Get(dto.Email, dto.Password);
-      //TODO Implementar a autenticação do usuário
-      return new LoginResponseDto
+      try
       {
-        AccessToken = string.Empty,
-        Expiration = DateTime.Now,
-        User = _mapper.Map<UserResponseDto>(user)
-      };
+        var token = _userDomainService?.Authenticate(dto.Email, dto.Password);
+
+        return new LoginResponseDto
+        {
+          AccessToken = token,
+        };
+      }
+      catch (AccessDeniedException aex)
+      {
+        throw new ApplicationException(aex.Message);
+      }
     }
 
     public UserResponseDto ForgotPassword(ForgotPasswordRequestDto dto)
@@ -47,13 +53,29 @@ namespace UsersAPI.Application.Services
     {
       try
       {
-        var user = _userDomainService?.Get(id);
-        user.Active = true;
-        user.EmailConfirmed = true;
+        if ((id == Guid.Empty) && (dto.Id == Guid.Empty))
+          throw new Exception("O ID do usuário deve ser informado.");
 
-        _userDomainService?.Update(user);
+        if (id != Guid.Empty)
+        {
+          var user = _userDomainService?.Get(id);
+          user.Active = true;
+          user.EmailConfirmed = true;
 
-        return _mapper.Map<UserResponseDto>(user);
+          _userDomainService?.Update(user);
+
+          return _mapper.Map<UserResponseDto>(user);
+        }
+        else
+        {
+          var user = _userDomainService?.Get(dto.Id);
+          user.Active = true;
+          user.EmailConfirmed = true;
+
+          _userDomainService?.Update(user);
+
+          return _mapper.Map<UserResponseDto>(user);
+        }
       }
       catch (Exception e)
       {

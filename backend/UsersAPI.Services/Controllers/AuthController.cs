@@ -55,8 +55,8 @@ namespace UsersAPI.Services.Controllers
     //[HttpPut("{id}")]
     public IActionResult ActivateUser(Guid id, ActivateUserRequestDto dto)
     {
-      return Ok();
-      //return StatusCode(200, _authAppService?.ActivateUser(id, dto));
+      //return Ok();
+      return StatusCode(200, _authAppService?.ActivateUser(id, dto));
     }
   }
 }
