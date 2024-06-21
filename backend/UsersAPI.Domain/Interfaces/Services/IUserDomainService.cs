@@ -1,4 +1,5 @@
 using UsersAPI.Domain.Entities;
+using UsersAPI.Domain.ValueObjects;
 
 namespace UsersAPI.Domain.Interfaces.Services
 {
@@ -12,7 +13,7 @@ namespace UsersAPI.Domain.Interfaces.Services
     User? Get(string email);
     User? Get(string email, string password);
     User? GetByRoleId(Guid roleId);
-    string Authenticate(string email, string password);
+    UserAuthVO Authenticate(string email, string password);
 
   }
 }

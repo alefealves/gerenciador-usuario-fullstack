@@ -22,11 +22,15 @@ namespace UsersAPI.Application.Services
     {
       try
       {
-        var token = _userDomainService?.Authenticate(dto.Email, dto.Password);
+        var useAuthToken = _userDomainService?.Authenticate(dto.Email, dto.Password);
+        var user = _userDomainService?.Get(dto.Email);
+        var userResponseDto = _mapper.Map<UserResponseDto>(user);
 
         return new LoginResponseDto
         {
-          AccessToken = token
+          AccessToken = useAuthToken.AccessToken,
+          Expiration = useAuthToken.Expiration,
+          User = userResponseDto
         };
       }
       catch (AccessDeniedException aex)

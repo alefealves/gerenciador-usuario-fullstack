@@ -85,7 +85,7 @@ namespace UsersAPI.Domain.Services
       return _unitOfWork?.UserRepository.Get(u => u.RoleId.Equals(roleId));
     }
 
-    public string Authenticate(string email, string password)
+    public UserAuthVO Authenticate(string email, string password)
     {
       var user = Get(email, password);
       if (user == null)
@@ -105,7 +105,7 @@ namespace UsersAPI.Domain.Services
         SignedAt = DateTime.Now
       };
 
-      return _tokenService?.CreateToken(userAuth);
+      return _tokenService?.CreateToken(userAuth); ;
     }
 
     public void Dispose()
