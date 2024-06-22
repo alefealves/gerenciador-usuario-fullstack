@@ -3,6 +3,7 @@ using UsersAPI.Domain.Exceptions;
 using UsersAPI.Domain.Interfaces.Repositories;
 using UsersAPI.Domain.Interfaces.Services;
 using UsersAPI.Domain.Interfaces.Security;
+using UsersAPI.Domain.Interfaces.Messages;
 using UsersAPI.Domain.ValueObjects;
 
 namespace UsersAPI.Domain.Services
@@ -12,18 +13,19 @@ namespace UsersAPI.Domain.Services
     private readonly IUnitOfWork? _unitOfWork;
     private readonly ITokenService? _tokenService;
 
-    //private readonly IUserMessageProducer? userMessageProducer;
+    private readonly IUserMessageProducer? _userMessageProducer;
 
     // public UserDomainService(IUnitOfWork? unitOfWork, IUserMessageProducer? userMessageProducer)
     // {
     //   _unitOfWork = unitOfWork;
-    //   this.userMessageProducer = userMessageProducer;
+    //   _userMessageProducer = userMessageProducer;
     // }
 
-    public UserDomainService(IUnitOfWork? unitOfWork, ITokenService? tokenService)
+    public UserDomainService(IUnitOfWork? unitOfWork, ITokenService? tokenService, IUserMessageProducer? userMessageProducer)
     {
       _unitOfWork = unitOfWork;
       _tokenService = tokenService;
+      _userMessageProducer = userMessageProducer;
     }
 
     public void Add(User user)
@@ -37,12 +39,12 @@ namespace UsersAPI.Domain.Services
       _unitOfWork?.UserRepository.Add(user);
       _unitOfWork?.SaveChanges();
 
-      // userMessageProducer?.Send(new UserMessageVO
-      // {
-      //   Email = user.Email,
-      //   Subject = "Parabéns, sua conta de usuário foi criada com sucesso",
-      //   Body = @$"Olá {user.FirstName}, clique no link para ativar seu Usuário em nosso sistema."
-      // });
+      _userMessageProducer?.Send(new UserMessageVO
+      {
+        Email = user.Email,
+        Subject = "Parabéns, sua conta de usuário foi criada com sucesso",
+        Body = @$"Olá {user.FirstName}, clique no link para ativar seu Usuário em nosso sistema."
+      });
     }
 
     public void Update(User user)
