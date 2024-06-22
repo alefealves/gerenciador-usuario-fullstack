@@ -44,7 +44,7 @@ namespace UsersAPI.Services.Controllers
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {
-      return StatusCode(200, _userAppService?.Delete(id));
+      return StatusCode(204, _userAppService?.Delete(id));
     }
 
     /// <summary>

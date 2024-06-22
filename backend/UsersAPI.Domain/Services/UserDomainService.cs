@@ -15,12 +15,6 @@ namespace UsersAPI.Domain.Services
 
     private readonly IUserMessageProducer? _userMessageProducer;
 
-    // public UserDomainService(IUnitOfWork? unitOfWork, IUserMessageProducer? userMessageProducer)
-    // {
-    //   _unitOfWork = unitOfWork;
-    //   _userMessageProducer = userMessageProducer;
-    // }
-
     public UserDomainService(IUnitOfWork? unitOfWork, ITokenService? tokenService, IUserMessageProducer? userMessageProducer)
     {
       _unitOfWork = unitOfWork;
