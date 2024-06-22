@@ -13,6 +13,17 @@ namespace UsersAPI.Tests.Helpers
         => new WebApplicationFactory<Program>().CreateClient();
 
     /// <summary>
+    /// Método para criar um client http não autorizado da api de usuários
+    /// </summary>
+    public static HttpClient CreateUnauthorizedClient()
+    {
+      var client = new WebApplicationFactory<Program>().CreateClient();
+      // Simulando um client sem token de autenticação ou com um token inválido
+      client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "invalid_token");
+      return client;
+    }
+
+    /// <summary>
     /// Método para serializar o conteudo
     /// da requisição que será enviada para um serviço
     /// </summary>

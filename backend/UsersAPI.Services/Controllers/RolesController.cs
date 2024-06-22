@@ -23,6 +23,7 @@ namespace UsersAPI.Services.Controllers
     /// </summary>
 
     //[AllowAnonymous]
+    [Authorize]
     [HttpPost]
     public IActionResult Add([FromBody] RoleAddRequestDto dto)
     {
@@ -32,6 +33,7 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// Alterar os dados da conta do perfil informado
     /// </summary>
+    [Authorize]
     [HttpPut("{id}")]
     public IActionResult Edit(Guid id, RoleUpdateRequestDto dto)
     {
@@ -41,10 +43,11 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// Excluir o perfil informado
     /// </summary>
+    [Authorize]
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {
-      return StatusCode(200, _roleAppService?.Delete(id));
+      return StatusCode(204, _roleAppService?.Delete(id));
     }
 
     /// <summary>

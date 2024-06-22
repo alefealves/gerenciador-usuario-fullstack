@@ -33,44 +33,139 @@ namespace RoleApp.API.Tests
             var response = TestHelper.ReadResponse<RoleResponseDto>(result);
             response.Id.Should().NotBeEmpty();
             response.RoleName.Should().Be(request.RoleName);
-
         }
 
-        [Fact(Skip = "Não implementado.")]
-        public void Role_Post_Returns_BadRequest()
+        [Fact]
+        public async Task Role_Post_Returns_BadRequest()
         {
-            //TODO
+            //dados enviados para requisição com RoleName vazio
+            var request = new RoleAddRequestDto
+            {
+                RoleName = string.Empty
+            };
+
+            //serializando os dados da requisição   
+            var content = TestHelper.CreateContent(request);
+
+            //fazendo a requisição POST para API
+            var result = await TestHelper.CreateClient.PostAsync("api/roles", content);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            //Capturando e verificando o conteúdo da resposta
+            var response = TestHelper.ReadResponse<RoleResponseDto>(result);
+            response.Id.Should().BeEmpty();
+            response.RoleName.Should().BeNull();
         }
+
+        [Fact]
+        public async Task Role_Put_Returns_Ok()
+        {
+            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
+            var roleName = "Interactions";
+
+            //dados alterados para nova requisição
+            var request = new RoleUpdateRequestDto
+            {
+                RoleName = roleName + " Alterado"
+            };
+
+            //serializando os dados da requisição
+            var content = TestHelper.CreateContent(request);
+
+            //fazendo a requisição PUT para API
+            var result = await TestHelper.CreateClient.PutAsync("api/roles/" + roleId, content);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Capturando e verificando o conteúdo da resposta
+            var response = TestHelper.ReadResponse<RoleResponseDto>(result);
+            response.Id.Should().Be(roleId);
+            response.RoleName.Should().Be(response.RoleName);
+        }
+
+        [Fact]
+        public async Task Role_Put_Returns_Unauthorized()
+        {
+            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
+            var roleName = "Interactions";
+
+            //dados alterados para nova requisição
+            var request = new RoleUpdateRequestDto
+            {
+                RoleName = roleName + " Alterado"
+            };
+
+            //serializando os dados da requisição   
+            var content = TestHelper.CreateContent(request);
+
+            //Simular usuário não autorizado removendo as credenciais ou usando um cliente não autenticado
+            var client = TestHelper.CreateUnauthorizedClient();
+            var result = await client.PutAsync("api/roles/" + roleId, content);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Role_Delete_Returns_Ok()
+        {
+            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
+            //fazendo a requisição DELETE para API
+            var result = await TestHelper.CreateClient.DeleteAsync("api/roles/" + roleId);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Role_Delete_Returns_Unauthorized()
+        {
+            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
+            //Simular usuário não autorizado removendo as credenciais ou usando um cliente não autenticado
+            var client = TestHelper.CreateUnauthorizedClient();
+            var result = await client.DeleteAsync("api/roles/" + roleId);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Role_Get_Returns_Ok()
+        {
+            var roleId = Guid.Parse("9863F9CE-1B42-46E6-8E25-EC91D8117B23");
+            //fazendo a requisição GET para API
+            var result = await TestHelper.CreateClient.GetAsync("api/roles/get/" + roleId);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Capturando e verificando o conteúdo da resposta
+            var response = TestHelper.ReadResponse<RoleResponseDto>(result);
+            response.Id.Should().NotBeEmpty();
+            response.RoleName.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task Role_GetAll_Returns_Ok()
+        {
+            //fazendo a requisição GET para API
+            var result = await TestHelper.CreateClient.GetAsync("api/roles/list/");
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Capturando e verificando o conteúdo da resposta
+            var response = TestHelper.ReadResponse<List<RoleResponseDto>>(result);
+            response.Should().NotBeNull();
+            response.Count.Should().BeGreaterThan(0);
+            response[0].Id.Should().NotBeEmpty();
+            response[0].RoleName.Should().NotBeNullOrEmpty();
+        }
+
         /*
-                [Fact(Skip = "Não implementado.")]
-                public void Role_Put_Returns_Ok()
-                {
-                    //TODO
-                }
-                [Fact(Skip = "Não implementado.")]
-                public void Role_Put_Returns_Unathorized()
-                {
-                    //TODO
-                }
-
-                [Fact(Skip = "Não implementado.")]
-                public void Role_Delete_Returns_Ok()
-                {
-                    //TODO
-                }
-                [Fact(Skip = "Não implementado.")]
-                public void Role_Delete_Returns_Unathorized()
-                {
-                    //TODO
-                }
-
-                [Fact(Skip = "Não implementado.")]
-                public void Role_Get_Returns_Ok()
-                {
-                    //TODO
-                }
-
-
                 [Fact(Skip = "Não implementado.")]
                 public void Module_Post_Returns_Ok()
                 {
