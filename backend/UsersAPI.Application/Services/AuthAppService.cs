@@ -4,6 +4,7 @@ using UsersAPI.Application.Dtos.Responses;
 using UsersAPI.Application.Interfaces.Application;
 using UsersAPI.Domain.Interfaces.Services;
 using UsersAPI.Domain.Exceptions;
+using System.Net;
 
 namespace UsersAPI.Application.Services
 {

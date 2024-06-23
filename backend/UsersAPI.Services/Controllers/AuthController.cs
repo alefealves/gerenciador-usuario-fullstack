@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsersAPI.Application.Dtos.Requests;
 using UsersAPI.Application.Dtos.Responses;
@@ -51,8 +52,8 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// Ativar usuário para acessar o sistema
     /// </summary>
-    //[Authorize]
-    [Route("activate-user")]
+    [Authorize]
+    [Route("activate-user/{id}")]
     [HttpPost]
     //[HttpPut("{id}")]
     public IActionResult ActivateUser(Guid id, ActivateUserRequestDto dto)
