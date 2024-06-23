@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsersAPI.Application.Dtos.Requests;
 using UsersAPI.Application.Dtos.Responses;
@@ -5,6 +6,7 @@ using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Services.Controllers
 {
+  [Authorize]
   [Route("api/[controller]")]
   [ApiController]
   public class PermissionsController : ControllerBase

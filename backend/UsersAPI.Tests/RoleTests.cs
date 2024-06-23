@@ -163,8 +163,10 @@ namespace RoleApp.API.Tests
         public async Task Role_Get_Returns_Ok()
         {
             var roleId = Guid.Parse("9863F9CE-1B42-46E6-8E25-EC91D8117B23");
-            //fazendo a requisição GET para API
-            var result = await TestHelper.CreateClient.GetAsync("api/roles/get/" + roleId);
+
+            //fazendo a requisição GET para API com autenticação
+            var client = await TestHelper.CreateAuthorizedClient();
+            var result = await client.GetAsync("api/roles/get/" + roleId);
 
             //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.OK);
