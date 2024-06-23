@@ -22,14 +22,14 @@ namespace UsersAPI.Application.Services
     {
       try
       {
-        var useAuthToken = _userDomainService?.Authenticate(dto.Email, dto.Password);
+        var userAuthToken = _userDomainService?.Authenticate(dto.Email, dto.Password);
         var user = _userDomainService?.Get(dto.Email);
         var userResponseDto = _mapper.Map<UserResponseDto>(user);
 
         return new LoginResponseDto
         {
-          AccessToken = useAuthToken.AccessToken,
-          Expiration = useAuthToken.Expiration,
+          AccessToken = userAuthToken.AccessToken,
+          Expiration = userAuthToken.Expiration,
           User = userResponseDto
         };
       }

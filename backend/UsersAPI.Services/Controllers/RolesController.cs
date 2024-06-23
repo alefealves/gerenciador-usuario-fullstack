@@ -6,7 +6,7 @@ using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Services.Controllers
 {
-  //[Authorize]
+  [Authorize]
   [Route("api/[controller]")]
   [ApiController]
   public class RolesController : ControllerBase
@@ -21,9 +21,7 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// cadastrar um novo perfil
     /// </summary>
-
     //[AllowAnonymous]
-    [Authorize]
     [HttpPost]
     public IActionResult Add([FromBody] RoleAddRequestDto dto)
     {
@@ -33,7 +31,6 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// Alterar os dados da conta do perfil informado
     /// </summary>
-    [Authorize]
     [HttpPut("{id}")]
     public IActionResult Edit(Guid id, RoleUpdateRequestDto dto)
     {
@@ -43,7 +40,6 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// Excluir o perfil informado
     /// </summary>
-    [Authorize]
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {

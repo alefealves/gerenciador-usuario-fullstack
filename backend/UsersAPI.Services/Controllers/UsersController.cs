@@ -21,7 +21,7 @@ namespace UsersAPI.Services.Controllers
     /// <summary>
     /// Cadastrar a conta de um novo usuário
     /// </summary>
-    [AllowAnonymous]
+    //[AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(UserResponseDto), 201)]
     public IActionResult Add([FromBody] UserAddRequestDto dto)

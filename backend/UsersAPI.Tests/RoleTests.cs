@@ -23,8 +23,9 @@ namespace RoleApp.API.Tests
             //serializando os dados da requisição   
             var content = TestHelper.CreateContent(request);
 
-            //fazendo a requisição POST para API
-            var result = await TestHelper.CreateClient.PostAsync("api/roles", content);
+            //fazendo a requisição POST para API com autenticação
+            var client = await TestHelper.CreateAuthorizedClient();
+            var result = await client.PostAsync("api/roles", content);
 
             //Capturando e verificando o status de resposta
             result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -47,8 +48,9 @@ namespace RoleApp.API.Tests
             //serializando os dados da requisição   
             var content = TestHelper.CreateContent(request);
 
-            //fazendo a requisição POST para API
-            var result = await TestHelper.CreateClient.PostAsync("api/roles", content);
+            //fazendo a requisição POST para API com autenticação
+            var client = await TestHelper.CreateAuthorizedClient();
+            var result = await client.PostAsync("api/roles", content);
 
             //Capturando e verificando o status de resposta
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -60,9 +62,31 @@ namespace RoleApp.API.Tests
         }
 
         [Fact]
+        public async Task Role_Post_Returns_Unauthorized()
+        {
+            //dados enviados para requisição
+            var faker = new Faker("pt_BR");
+            var request = new RoleAddRequestDto
+            {
+                RoleName = faker.Name.JobArea()
+            };
+
+            //serializando os dados da requisição   
+            var content = TestHelper.CreateContent(request);
+
+            //Simular usuário não autorizado removendo as credenciais ou usando um cliente não autenticado
+            var client = TestHelper.CreateUnauthorizedClient();
+            var result = await client.PostAsync("api/roles", content);
+
+            //Capturando e verificando o status de resposta
+            result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+
+        [Fact]
         public async Task Role_Put_Returns_Ok()
         {
-            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
+            var roleId = Guid.Parse("D434208A-3E05-4705-8593-69491ABC2B9A");
             var roleName = "Interactions";
 
             //dados alterados para nova requisição
@@ -74,8 +98,9 @@ namespace RoleApp.API.Tests
             //serializando os dados da requisição
             var content = TestHelper.CreateContent(request);
 
-            //fazendo a requisição PUT para API
-            var result = await TestHelper.CreateClient.PutAsync("api/roles/" + roleId, content);
+            //fazendo a requisição PUT para API com autenticação
+            var client = await TestHelper.CreateAuthorizedClient();
+            var result = await client.PutAsync("api/roles/" + roleId, content);
 
             //Capturando e verificando o status de resposta
             result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -89,7 +114,7 @@ namespace RoleApp.API.Tests
         [Fact]
         public async Task Role_Put_Returns_Unauthorized()
         {
-            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
+            var roleId = Guid.Parse("D434208A-3E05-4705-8593-69491ABC2B9A");
             var roleName = "Interactions";
 
             //dados alterados para nova requisição
@@ -112,9 +137,11 @@ namespace RoleApp.API.Tests
         [Fact]
         public async Task Role_Delete_Returns_Ok()
         {
-            var roleId = Guid.Parse("5072F67A-FD1A-4BC6-8719-BA2C6480A5C4");
-            //fazendo a requisição DELETE para API
-            var result = await TestHelper.CreateClient.DeleteAsync("api/roles/" + roleId);
+            var roleId = Guid.Parse("D434208A-3E05-4705-8593-69491ABC2B9A");
+
+            //fazendo a requisição DELETE para API com autenticação
+            var client = await TestHelper.CreateAuthorizedClient();
+            var result = await client.DeleteAsync("api/roles/" + roleId);
 
             //Capturando e verificando o status de resposta
             result.StatusCode.Should().Be(HttpStatusCode.NoContent);
