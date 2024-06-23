@@ -16,10 +16,10 @@ namespace UsersAPI.Infra.Data.Repositories
       _dataContext = dataContext;
     }
 
-    List<SubModule> GetAll()
-    {
-      return _dataContext.SubModule.Include(m => m.Module).ToList();
-    }
+    // List<SubModule> GetAll()
+    // {
+    //   return _dataContext.SubModule.Include(m => m.Module).ToList();
+    // }
 
     public List<SubModule> GetAll(Guid moduleId)
     {
@@ -33,18 +33,7 @@ namespace UsersAPI.Infra.Data.Repositories
 
     public SubModule? GetByModuleId(Guid moduleId)
     {
-
-      var consulta =
-          from m in _dataContext.Module
-          join s in _dataContext.SubModule on m.Id equals s.ModuleId into joinModSUb
-          from juncao in joinModSUb.DefaultIfEmpty()
-          where (m.Id == moduleId)
-          select new SubModule
-          {
-            ModuleId = m.Id
-          };
-
-      return consulta.FirstOrDefault();
+      return _dataContext.SubModule.Include(m => m.Module).Where(s => s.ModuleId.Equals(moduleId)).FirstOrDefault();
     }
 
     public SubModule? GetByPermission(Guid id)
