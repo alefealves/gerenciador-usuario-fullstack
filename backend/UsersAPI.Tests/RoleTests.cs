@@ -27,7 +27,7 @@ namespace RoleApp.API.Tests
             var client = await TestHelper.CreateAuthorizedClient();
             var result = await client.PostAsync("api/roles", content);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.Created);
 
             //Capturando e verificando o conteúdo da resposta
@@ -52,7 +52,7 @@ namespace RoleApp.API.Tests
             var client = await TestHelper.CreateAuthorizedClient();
             var result = await client.PostAsync("api/roles", content);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             //Capturando e verificando o conteúdo da resposta
@@ -78,7 +78,7 @@ namespace RoleApp.API.Tests
             var client = TestHelper.CreateUnauthorizedClient();
             var result = await client.PostAsync("api/roles", content);
 
-            //Capturando e verificando o status de resposta
+            ///Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
@@ -102,7 +102,7 @@ namespace RoleApp.API.Tests
             var client = await TestHelper.CreateAuthorizedClient();
             var result = await client.PutAsync("api/roles/" + roleId, content);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             //Capturando e verificando o conteúdo da resposta
@@ -130,7 +130,7 @@ namespace RoleApp.API.Tests
             var client = TestHelper.CreateUnauthorizedClient();
             var result = await client.PutAsync("api/roles/" + roleId, content);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
@@ -143,7 +143,7 @@ namespace RoleApp.API.Tests
             var client = await TestHelper.CreateAuthorizedClient();
             var result = await client.DeleteAsync("api/roles/" + roleId);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
@@ -155,7 +155,7 @@ namespace RoleApp.API.Tests
             var client = TestHelper.CreateUnauthorizedClient();
             var result = await client.DeleteAsync("api/roles/" + roleId);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
@@ -166,7 +166,7 @@ namespace RoleApp.API.Tests
             //fazendo a requisição GET para API
             var result = await TestHelper.CreateClient.GetAsync("api/roles/get/" + roleId);
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             //Capturando e verificando o conteúdo da resposta
@@ -178,10 +178,11 @@ namespace RoleApp.API.Tests
         [Fact]
         public async Task Role_GetAll_Returns_Ok()
         {
-            //fazendo a requisição GET para API
-            var result = await TestHelper.CreateClient.GetAsync("api/roles/list/");
+            //fazendo a requisição GET para API com autenticação
+            var client = await TestHelper.CreateAuthorizedClient();
+            var result = await client.GetAsync("api/roles/list/");
 
-            //Capturando e verificando o status de resposta
+            //Verificando o status code de resposta
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             //Capturando e verificando o conteúdo da resposta
