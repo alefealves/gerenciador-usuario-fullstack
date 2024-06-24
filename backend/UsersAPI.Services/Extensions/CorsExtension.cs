@@ -11,7 +11,7 @@ namespace UsersAPI.Services.Extensions
                 {
                     builder.AllowAnyOrigin()  //Qualquer domínio pode acessar a API
                            .AllowAnyMethod()  //Qualquer método (GET, POST, PUT, DELETE e etc) pode acessar a API
-                           .AllowAnyHeader(); //Qualquer parâmetro de ecabeçalho de requisição pode ser enviado
+                           .AllowAnyHeader(); //Qualquer parâmetro de cabeçalho de requisição pode ser enviado
                 });
             });
             return services;
