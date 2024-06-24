@@ -9,6 +9,7 @@ namespace UsersAPI.Domain.Interfaces.Repositories
     SubModule? Get(string subModuleName);
     SubModule? GetById(Guid id);
     SubModule? GetByModuleId(Guid moduleId);
-    SubModule? GetByPermission(Guid id);
+    Permission? GetByPermission(Guid id);
+    Module? GetExistsModuleId(Guid moduleId);
   }
 }

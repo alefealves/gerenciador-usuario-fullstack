@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
-using System.Reflection;
 using UsersAPI.Domain.Entities;
 using UsersAPI.Domain.Interfaces.Repositories;
 using UsersAPI.Infra.Data.Contexts;
@@ -16,10 +14,10 @@ namespace UsersAPI.Infra.Data.Repositories
       _dataContext = dataContext;
     }
 
-    // List<SubModule> GetAll()
-    // {
-    //   return _dataContext.SubModule.Include(m => m.Module).ToList();
-    // }
+    List<SubModule> GetAll()
+    {
+      return _dataContext.SubModule.Include(m => m.Module).ToList();
+    }
 
     public List<SubModule> GetAll(Guid moduleId)
     {
@@ -36,20 +34,17 @@ namespace UsersAPI.Infra.Data.Repositories
       return _dataContext.SubModule.Include(m => m.Module).Where(s => s.ModuleId.Equals(moduleId)).FirstOrDefault();
     }
 
-    public SubModule? GetByPermission(Guid id)
+    public Module? GetExistsModuleId(Guid moduleId)
     {
-      var consulta =
-          from p in _dataContext.Permission
-          join s in _dataContext.SubModule on p.SubModuleId equals s.Id
-          where (s.Id == id)
-          select new SubModule
-          {
-            Id = s.Id
-          };
-
-      return consulta.FirstOrDefault();
+      return _dataContext.Module.Where(s => s.Id.Equals(moduleId)).FirstOrDefault();
     }
-    SubModule? ISubModuleRepository.GetById(Guid id)
+
+    public Permission? GetByPermission(Guid id)
+    {
+      return _dataContext.Permission.Include(s => s.SubModule).Where(s => s.SubModuleId.Equals(id)).FirstOrDefault();
+    }
+
+    public SubModule? GetById(Guid id)
     {
       return _dataContext?.SubModule.Include(m => m.Module).Where(s => s.Id.Equals(id)).FirstOrDefault();
     }

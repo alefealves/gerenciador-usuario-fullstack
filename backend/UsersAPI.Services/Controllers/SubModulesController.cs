@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsersAPI.Application.Dtos.Requests;
 using UsersAPI.Application.Dtos.Responses;
@@ -5,6 +6,7 @@ using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Services.Controllers
 {
+  [Authorize]
   [Route("api/[controller]")]
   [ApiController]
   public class SubModulesController : ControllerBase
@@ -41,7 +43,7 @@ namespace UsersAPI.Services.Controllers
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {
-      return StatusCode(200, _subModuleAppService?.Delete(id));
+      return StatusCode(204, _subModuleAppService?.Delete(id));
     }
 
     /// <summary>

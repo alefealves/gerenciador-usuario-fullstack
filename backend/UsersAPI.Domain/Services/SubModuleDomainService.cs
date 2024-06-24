@@ -16,7 +16,7 @@ namespace UsersAPI.Domain.Services
 
     public void Add(SubModule subModule)
     {
-      if (GetByModuleId(subModule.ModuleId) == null)
+      if (GetExistsModuleId(subModule.ModuleId) == null)
         throw new ModuleIsNotExistsException(subModule.ModuleId);
 
       if (Get(subModule.SubModuleName) != null)
@@ -63,6 +63,11 @@ namespace UsersAPI.Domain.Services
     public SubModule? GetByModuleId(Guid moduleId)
     {
       return _unitOfWork?.SubModuleRepository.GetByModuleId(moduleId);
+    }
+
+    public Module? GetExistsModuleId(Guid moduleId)
+    {
+      return _unitOfWork?.SubModuleRepository.GetExistsModuleId(moduleId);
     }
 
     public SubModule? GetByPermission(Guid id)

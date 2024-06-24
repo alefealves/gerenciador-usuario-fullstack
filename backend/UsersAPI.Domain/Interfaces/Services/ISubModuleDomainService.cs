@@ -13,5 +13,7 @@ namespace UsersAPI.Domain.Interfaces.Services
     SubModule? GetById(Guid id);
     SubModule? GetByModuleId(Guid moduleId);
     SubModule? GetByPermission(Guid id);
+
+    Module? GetExistsModuleId(Guid moduleId);
   }
 }
